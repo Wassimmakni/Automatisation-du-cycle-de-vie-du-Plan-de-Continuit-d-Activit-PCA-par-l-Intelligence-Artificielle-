@@ -10,7 +10,8 @@ function App() {
   };
 
   const uploadFile = async () => {
-    if (!file) return;
+    if (!file) return 
+  
 
     const formData = new FormData();
     formData.append("file", file);
