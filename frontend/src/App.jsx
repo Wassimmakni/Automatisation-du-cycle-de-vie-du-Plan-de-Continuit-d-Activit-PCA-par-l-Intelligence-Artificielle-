@@ -3,6 +3,7 @@ import axios from "axios";
 
 function App() {
   const [file, setFile] = useState(null);
+  const [data, setData] = useState([]);
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -20,23 +21,59 @@ function App() {
         formData
       );
 
-      console.log(res.data);
+      setData(res.data);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div>
-      <h1>Choisir un fichier</h1>
+    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+      <h1> Dashboard BIA</h1>
 
       <input type="file" onChange={handleFileChange} />
 
-      {file && <p>Fichier sélectionné: {file.name}</p>}
+      {file && <p> Fichier sélectionné: {file.name}</p>}
 
       <button onClick={uploadFile}>
-        Envoyer
+        Analyser
       </button>
+
+      {/* TABLE */}
+      {data.length > 0 && (
+        <table
+          border="1"
+          cellPadding="10"
+          style={{
+            borderCollapse: "collapse",
+            width: "100%"
+          }}
+        >
+          <thead style={{ background: "#f2f2f2" }}>
+            <tr>
+              <th>Processus</th>
+              <th>Département</th>
+              <th>Criticité</th>
+              <th>RTO</th>
+              <th>RPO</th>
+              <th>MTPD</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td>{item.processus}</td>
+                <td>{item.departement}</td>
+                <td>{item.criticite}</td>
+                <td>{item.RTO}</td>
+                <td>{item.RPO}</td>
+                <td>{item.MTPD}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
